@@ -14,7 +14,7 @@ from data_loader import *
 from ema import EMA
 from model import *
 from pretraining.encoder import Model as AuxCls
-from pretraining.resnet import ResNet18
+from pretraining.resnet import ResNet18, ResNet50, ResNet101
 from utils import *
 from diffusion_utils import *
 
@@ -92,6 +92,13 @@ class Diffusion(object):
                     nn.ReLU(),
                     nn.Linear(100, config.data.num_classes)
                 ).to(self.device)
+            elif config.data.dataset == "PAD-UFES-20":
+                if config.diffusion.aux_cls.arch == "resnet101":
+                    self.cond_pred_model = ResNet101(num_classes=config.data.num_classes).to(self.device)
+                elif config.diffusion.aux_cls.arch == "resnet50":
+                    self.cond_pred_model = ResNet50(num_classes=config.data.num_classes).to(self.device)
+                else:
+                    raise NotImplementedError("Architecture not found.")
             elif config.data.dataset in ["FashionMNIST", "CIFAR10", "CIFAR100"]:
                 if config.diffusion.aux_cls.arch == "lenet":
                     self.cond_pred_model = LeNet(config.data.num_classes,
