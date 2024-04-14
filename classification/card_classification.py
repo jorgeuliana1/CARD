@@ -92,7 +92,7 @@ class Diffusion(object):
                     nn.ReLU(),
                     nn.Linear(100, config.data.num_classes)
                 ).to(self.device)
-            elif config.data.dataset == "PAD-UFES-20":
+            elif config.data.dataset in ["PAD-UFES-20", "P-NDB-UFES"]:
                 if config.diffusion.aux_cls.arch == "resnet101":
                     self.cond_pred_model = ResNet101(num_classes=config.data.num_classes).to(self.device)
                 elif config.diffusion.aux_cls.arch == "resnet50":

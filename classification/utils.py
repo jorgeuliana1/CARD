@@ -8,7 +8,7 @@ import torchvision
 from torch import nn
 from torchvision import transforms
 
-from dataset import PadUfes20
+from dataset import PadUfes20, PNdbUfes
 
 def set_random_seed(seed):
     print(f"\n* Set seed {seed}")
@@ -164,6 +164,14 @@ def get_dataset(args, config):
         ])
         train_dataset = PadUfes20(root=config.data.dataroot, train=True, transform=transform)
         test_dataset = PadUfes20(root=config.data.dataroot, train=False, transform=transform)
+    elif config.data.dataset == "P-NDB-UFES":
+        data_norm_mean, data_norm_std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize(mean=data_norm_mean, std=data_norm_std)
+        ])
+        train_dataset = PNdbUfes(root=config.data.dataroot, train=True, transform=transform)
+        test_dataset = PNdbUfes(root=config.data.dataroot, train=False, transform=transform)
     else:
         raise NotImplementedError(
             "Options: toy (classification of two Gaussian), MNIST, FashionMNIST, CIFAR10.")
