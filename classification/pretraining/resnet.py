@@ -141,3 +141,19 @@ def ResNet18(num_classes=10):
         "NUM_CLASSES": num_classes,
     }
     return build_ResNet(cfg)
+
+def ResNet50(num_classes=10):
+    cfg = {
+        "RESNET_BLOCK": "Bottleneck",
+        "RESNET_LAYERS": (3, 4, 6, 3),  # This corresponds to ResNet-50 architecture
+        "NUM_CLASSES": num_classes,
+    }
+    return build_ResNet(cfg)
+
+def ResNet101(num_classes=10):
+    cfg = {
+        "RESNET_BLOCK": "Bottleneck",
+        "RESNET_LAYERS": (3, 4, 23, 3),  # This corresponds to ResNet-101 architecture
+        "NUM_CLASSES": num_classes,
+    }
+    return build_ResNet(cfg)
